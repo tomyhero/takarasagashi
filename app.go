@@ -1,3 +1,11 @@
+/*
+
+ターミナル移動、ファイルオープン操作等を、楽しみながら学ぶためのプログラムです。
+
+
+go build -v -o takarasagashi app.go
+
+*/
 package main
 
 import (
@@ -13,11 +21,18 @@ import (
 const (
 	ATARI_MESSAGE  = "あたり"
 	HAZURE_MESSAGE = "はずれ"
-	SUBDIR_RATIO   = 30
+	SUBDIR_RATIO   = 40
 )
 
+/*
+作成する、ディレクトリ名を設定できます。
+*/
 var DIR_NAMES []string = []string{"isu", "tukue", "hako", "kokuban", "kuruma", "densya", "sora"}
-var FILE_NAMES []string = []string{"kuji"}
+
+/*
+作成する、ファイル名を設定できます。
+*/
+var FILE_NAMES []string = []string{"kuji", "takarabako"}
 
 var setting struct {
 	DirCount  int
@@ -25,6 +40,7 @@ var setting struct {
 	RootName  string
 }
 
+// この init() 関数は　main() より先に呼ばれます。
 func init() {
 	flag.IntVar(&setting.DirCount, "dir_count", 10, "ディレクトリ数")
 	flag.IntVar(&setting.FileCount, "file_count", 20, "ファイル数")
@@ -65,8 +81,10 @@ func main() {
 	time.Sleep(1000 * time.Millisecond)
 
 	fmt.Printf("\n宝を隠したよ！「%s」とかかれたファイルを探してね！\n", ATARI_MESSAGE)
+
 }
 
+// 宝をかくす（ファイルを作成する）
 func hideTakara(root string, dirs []string, count int) {
 
 	atari := rand.Intn(count)
@@ -91,6 +109,7 @@ func hideTakara(root string, dirs []string, count int) {
 	}
 }
 
+// ディレクトリを作成する
 func createDir(root string, dirs []string) {
 	for _, dir := range dirs {
 		dir = path.Join(root, dir)
